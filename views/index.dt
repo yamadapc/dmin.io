@@ -1,0 +1,18 @@
+extends layout
+block body
+  div.container.text-center
+    div.header
+      h3.text-muted dmin.io
+
+    h2 Enter an URL
+    form(role="form", action="urls", method="post").form-inline
+      div.input-group
+        input(name="url", type="text", placeholder="https://google.com").form-control#url-input
+        span.input-group-btn
+          input(type="submit").btn.btn-default Shorten
+
+    div(style="max-width: 500px; margin: 0 auto;")
+      p.lead.text-justify
+        | <b>dmin.io</b> is built with fully open source technologies. Namely,
+        | the D programming language, the dub package manager for D, vibe.d a
+        | node.js-like framework for D, Redis and Twitter's bootstrap.

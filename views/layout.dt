@@ -1,0 +1,16 @@
+- void css(string file)
+  link(rel='stylesheet', type='text/css', href='public/css/#{file}.css')
+
+html
+  head
+    meta(charset='utf-8')
+
+    title dmin.io
+
+    - css("bootstrap.min");
+    - css("bootstrap-theme.min");
+  body
+    block body
+    div.footer.text-center
+      | The code is available at
+      a(href="https://github.com/yamadapc/dmin.io") github.com/yamadapc/dmin.io

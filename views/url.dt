@@ -1,0 +1,15 @@
+extends layout
+block body
+  div.container.text-center
+    div.header
+      h3.text-muted dmin.io
+
+    h2 Your shortened URL is
+    h4
+      code= short_url
+
+    div(style="max-width: 500px; margin: 0 auto;")
+      p.lead.text-justify
+        | <b>dmin.io</b> is built with fully open source technologies. Namely,
+        | the D programming language, the dub package manager for D, vibe.d a
+        | node.js-like framework for D, Redis and Twitter's bootstrap.

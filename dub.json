@@ -1,0 +1,9 @@
+{
+  "name": "dmin.io",
+  "description": "Simplest possible URL shortener written in D.",
+  "copyright": "Copyright © 2014, Pedro Tacla Yamada",
+  "authors": ["Pedro Tacla Yamada"],
+  "dependencies": {
+    "vibe-d": "~master"
+  }
+}
