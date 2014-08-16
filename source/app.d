@@ -1,9 +1,11 @@
 import std.conv : to;
+import std.process : environment;
 import std.string : format;
 
 import vibe.d;
 
-static immutable string HOST = "localhost:8080/";
+static immutable string HOST;
+static immutable ushort PORT;
 RedisClient redisClient;
 
 void getUrl(HTTPServerRequest req, HTTPServerResponse res)
@@ -24,14 +26,20 @@ void createUrl(HTTPServerRequest req, HTTPServerResponse res)
 
   auto key = db.incr("url_count");
   db.set(format("url\\%s\\key", key), url);
-  auto short_url = format(HOST ~ "%s", key);
+  auto short_url = format(HOST ~ ":%s/" ~ "%s", PORT, key);
 
   res.render!("url.dt", short_url);
 }
 
 shared static this()
 {
-  redisClient = connectRedis("localhost");
+  HOST = environment.get("HOST", "127.0.0.1");
+  PORT = environment.get("PORT", "8080").to!ushort;
+
+  redisClient = connectRedis(
+    environment.get("DB_URI", "localhost"),
+    environment.get("DB_PORT", "6379").to!ushort
+  );
 
   auto router = new URLRouter;
 
@@ -41,8 +49,8 @@ shared static this()
   router.get("/:key", &getUrl);
 
   auto settings = new HTTPServerSettings;
-  settings.port = 8080;
-  settings.bindAddresses = ["127.0.0.1"];
+  settings.port = PORT;
+  settings.bindAddresses = [HOST];
 
   listenHTTP(settings, router);
 }
