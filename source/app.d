@@ -40,6 +40,8 @@ shared static this()
     environment.get("DB_URI", "localhost"),
     environment.get("DB_PORT", "6379").to!ushort
   );
+  auto pw = environment.get("DB_PASSWORD");
+  if(pw != null) redisClient.auth(pw);
 
   auto router = new URLRouter;
 
