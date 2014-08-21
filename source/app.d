@@ -52,7 +52,6 @@ shared static this()
 
   auto settings = new HTTPServerSettings;
   settings.port = PORT;
-  settings.bindAddresses = [HOST];
 
   listenHTTP(settings, router);
 }
