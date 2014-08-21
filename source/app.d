@@ -26,14 +26,14 @@ void createUrl(HTTPServerRequest req, HTTPServerResponse res)
 
   auto key = db.incr("url_count");
   db.set(format("url\\%s\\key", key), url);
-  auto short_url = format(HOST ~ ":%s/" ~ "%s", PORT, key);
+  auto short_url = format(HOST ~ "/" ~ "%s", key);
 
   res.render!("url.dt", short_url);
 }
 
 shared static this()
 {
-  HOST = environment.get("HOST", "127.0.0.1");
+  HOST = environment.get("HOST", "127.0.0.1:8080");
   PORT = environment.get("PORT", "8080").to!ushort;
 
   redisClient = connectRedis(
