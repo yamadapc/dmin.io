@@ -1,6 +1,7 @@
 # dmin.io
 
-Simplest possible URL shortener written in D.
+Simplest possible URL shortener written in D. You can checkout a live heroku
+demo here - http://dmin-io-demo.herokuapp.com/.
 
 ## License
 
