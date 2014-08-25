@@ -1,5 +1,9 @@
+import std.algorithm : iota, map;
+import std.ascii : letters;
 import std.conv : to;
 import std.process : environment;
+import std.random : uniform;
+import std.range : isRandomAccessRange;
 import std.string : format;
 
 import vibe.d;
@@ -23,13 +27,32 @@ void createUrl(HTTPServerRequest req, HTTPServerResponse res)
 
   auto db = redisClient.getDatabase(0);
   auto url = req.form["url"];
+  string key;
 
-  auto key = db.incr("url_count");
-  db.set(format("url\\%s\\key", key), url);
+  // Try generating random keys until one isn't taken:
+  do key = randomString(5);
+  while(!db.setNX(format("url\\%s\\key", key), url));
+
   auto short_url = format(HOST ~ "/" ~ "%s", key);
-
   res.render!("url.dt", short_url);
 }
+
+string randomString(size_t targetLength)
+{
+  static immutable string validChars = idup(letters ~
+    ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']);
+  static immutable ulong len = validChars.length;
+
+  return iota(targetLength)
+    .map!((_) => pickOne(validChars, len))
+    .to!string;
+}
+
+auto pickOne(R)(immutable R range, immutable ulong len)
+{
+  return range[uniform(0, len)];
+}
+
 
 shared static this()
 {
