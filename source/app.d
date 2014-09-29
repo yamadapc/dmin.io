@@ -39,8 +39,8 @@ void createUrl(HTTPServerRequest req, HTTPServerResponse res)
 
 string randomString(size_t targetLength)
 {
-  static immutable string validChars = idup(letters ~
-    ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']);
+  static immutable string validChars = (letters ~
+    ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']).idup;
   static immutable ulong len = validChars.length;
 
   return iota(targetLength)
@@ -48,7 +48,7 @@ string randomString(size_t targetLength)
     .to!string;
 }
 
-auto pickOne(R)(immutable R range, immutable ulong len)
+auto pickOne(R)(R range, immutable ulong len)
 {
   return range[uniform(0, len)];
 }
