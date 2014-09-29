@@ -39,8 +39,9 @@ void createUrl(HTTPServerRequest req, HTTPServerResponse res)
 
 string randomString(size_t targetLength)
 {
-  static immutable string validChars = (letters ~
-    ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']).idup;
+  static immutable string validChars = (
+    letters ~ ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+  ).idup;
   static immutable ulong len = validChars.length;
 
   return iota(targetLength)
@@ -69,7 +70,11 @@ shared static this()
   auto router = new URLRouter;
 
   router.get("/", staticTemplate!"index.dt");
-  router.get("/public/*", serveStaticFiles("./public/", new HTTPFileServerSettings("/public/")));
+  router.get(
+    "/public/*",
+    serveStaticFiles("./public/",
+    new HTTPFileServerSettings("/public/"))
+  );
   router.post("/urls", &createUrl);
   router.get("/:key", &getUrl);
 
