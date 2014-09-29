@@ -17,7 +17,7 @@ void getUrl(HTTPServerRequest req, HTTPServerResponse res)
   auto db = redisClient.getDatabase(0);
   auto key = req.params["key"];
 
-  auto url = db.get(format("url\\%s\\key", key));
+  auto url = db.get!string(format("url\\%s\\key", key));
   res.redirect(url);
 }
 
